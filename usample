@@ -1,0 +1,22 @@
+def resamplingDataPrep(X_train, y_train, target_var): 
+    # concatenate our training data back together
+    resampling = X_train.copy()
+    resampling[target_var] = y_train.values
+    # separate minority and majority classes
+    majority_class = resampling[resampling[target_var]==0]
+    minority_class = resampling[resampling[target_var]==1]
+    # Get a class count to understand the class imbalance.
+    print('majority_class: '+ str(len(majority_class)))
+    print('minority_class: '+ str(len(minority_class)))
+    return majority_class, minority_class
+    
+    
+  def upsample_SMOTE(X_train, y_train, ratio=1.0):
+    """Upsamples minority class using SMOTE.
+    Ratio argument is the percentage of the upsampled minority class in relation
+    to the majority class. Default is 1.0
+    """
+    sm = SMOTE(random_state=23, sampling_strategy=ratio)
+    X_train_sm, y_train_sm = sm.fit_resample(X_train, y_train)
+    print(len(X_train_sm), len(y_train_sm))
+    return X_train_sm, y_train_sm
